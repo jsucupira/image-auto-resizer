@@ -1,9 +1,12 @@
-!packages/SimpleLogging.1.0.0/*
-**/obj/
-**/bin/
-**/packages/
+#ignore files
+obj/
+bin/
+packages/*
 *.suo
-**/dllsOutput/
-**/cachedImages/
-**/loadedDlls/
-**/savedsettings/
+dllsOutput/
+cachedImages/
+loadedDlls/
+savedsettings/
+
+#don't ignore
+!packages/SimpleLogging*
