@@ -18,8 +18,6 @@ namespace Core.MEF
                 return enumerable.First();
             if (!enumerable.Any())
                 throw new Exception(string.Format("Could not resolve MEF Export for '{0}'.", typeof (T).Name));
-            //TODO:  Consider adding metadata attributes to exports to allow selecting non "Default" if there are multiple exports found.
-            //throw new Exception(string.Format("Could not resolve MEF Export for '{0}'. (multiple defaults)", typeof(T).Name));
             return enumerable.Last();
         }
 

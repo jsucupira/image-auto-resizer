@@ -1,0 +1,7 @@
+InvokeActionAsync -> /api/images/clear -> DELETE
+OnActionExecuted controller:Home action:GetImage
+OnActionExecuted controller:Home action:Error
+OnActionExecuted controller:Home action:GetImage
+2015-09-05 18:49:18.983 -> REQUEST_URL:http://localhost:5615/,REFERRER_URL:, IP_ADDRESS:::1, controller:Home -> action:GetImage
+2015-09-05 18:49:19.012 -> REQUEST_URL:http://localhost:5615/Error,REFERRER_URL:, IP_ADDRESS:::1, controller:Home -> action:Error
+2015-09-05 18:49:48.977 -> REQUEST_URL:http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options=width=400,REFERRER_URL:http://localhost:5615/Error, IP_ADDRESS:::1, controller:Home -> action:GetImage

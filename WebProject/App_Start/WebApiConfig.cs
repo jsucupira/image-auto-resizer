@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -9,9 +10,7 @@ namespace WebProject
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            // Configure Web API to use only bearer token authentication.
-            //config.SuppressDefaultHostAuthentication();
+            config.Services.Replace(typeof(IHttpActionInvoker), new ControllerActionInvoker());
 
             JsonMediaTypeFormatter json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             //json.UseDataContractJsonSerializer = true;

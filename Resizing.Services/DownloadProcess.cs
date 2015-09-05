@@ -7,6 +7,7 @@ using Contracts;
 using Core.MEF;
 using Domain;
 using ImageResizer;
+using SimpleLogging;
 using Utility;
 
 namespace Resizing.Services
@@ -15,6 +16,7 @@ namespace Resizing.Services
     {
         private static readonly IImageConfigurationRepository _imageConfigurationRepository = ObjectContainer.Resolve<IImageConfigurationRepository>();
         private static string _imageLocation;
+        private static readonly ISimpleLogger _logger = SimpleLoggerFactory.Create();
 
         public static DownloadResponse Download(DownloadRequest request)
         {
@@ -113,13 +115,13 @@ namespace Resizing.Services
                 }
                 catch (Exception ex)
                 {
-                    //TODO: Log errors
+                    _logger.LogError(ex, "Error when trying to create image.");
                 }
                 return response;
             }
             catch (Exception exception)
             {
-                //TODO: Log Error
+                _logger.LogError(exception, "Error when trying to download image.");
             }
             return null;
         }
