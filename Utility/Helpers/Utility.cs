@@ -9,7 +9,7 @@ using Domain;
 
 namespace Utility.Helpers
 {
-    public static class Helper
+    public static class Utility
     {
         private static readonly List<string> _optionsList = new List<string>
         {

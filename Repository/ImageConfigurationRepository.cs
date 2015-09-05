@@ -5,9 +5,9 @@ using Domain;
 
 namespace Repository
 {
-    [Export(typeof(IImageRepository))]
+    [Export(typeof(IImageConfigurationRepository))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class ImageRepository : IImageRepository
+    public class ImageConfigurationRepository : IImageConfigurationRepository
     {
         private readonly ICacheDataStorage _cacheStorage = ObjectContainer.Container.GetExportedValue<ICacheDataStorage>();
 

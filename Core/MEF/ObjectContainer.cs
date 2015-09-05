@@ -7,19 +7,23 @@ namespace Core.MEF
         private ObjectContainer()
         {  }
 
-        private static CompositionContainer _container;
-        public static CompositionContainer Container { get { return _container; } }
+        public static CompositionContainer Container { get; private set; }
 
         public static void SetContainer(CompositionContainer container)
         {
-            if (_container == null)
+            if (Container == null)
             {
                 lock (_syncRoot)
                 {
-                    if (_container == null)
-                        _container = container;
+                    if (Container == null)
+                        Container = container;
                 }
             }
+        }
+
+        public static T Resolve<T>()
+        {
+            return Container.ResolveExportedValue<T>();
         }
 
         private static readonly object _syncRoot = new object();

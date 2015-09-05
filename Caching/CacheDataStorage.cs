@@ -12,7 +12,7 @@ namespace Caching
         private const string CACHE_KEY = "__Caching_{0}";
         private static readonly ObjectCache _cache = MemoryCache.Default;
         private static readonly Dictionary<string, List<string>> _cacheKeys = new Dictionary<string, List<string>>();
-        private static readonly CacheItemPolicy _defaultPolicty = new CacheItemPolicy {Priority = CacheItemPriority.Default};
+        private static readonly CacheItemPolicy _defaultPolicy = new CacheItemPolicy {Priority = CacheItemPriority.Default};
 
         public void Add(string key, object dataObject, CacheItemPolicy policy)
         {
@@ -22,7 +22,7 @@ namespace Caching
 
         public void Add(string key, object dataObject, string section)
         {
-            Add(key, dataObject, _defaultPolicty, section);
+            Add(key, dataObject, _defaultPolicy, section);
         }
 
         public void Add(string key, object dataObject, CacheItemPolicy policy, string section)
@@ -52,7 +52,7 @@ namespace Caching
 
         public void Add(string key, object dataObject)
         {
-            Add(key, dataObject, _defaultPolicty);
+            Add(key, dataObject, _defaultPolicy);
         }
 
         public void Remove(string key)

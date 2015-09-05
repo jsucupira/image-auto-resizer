@@ -16,7 +16,7 @@ namespace Resizing.Services
         private static readonly Dictionary<Uri, DownloadResponse> _savedImages = new Dictionary<Uri, DownloadResponse>();
         private static readonly Dictionary<string, DownloadResponse> _customImages = new Dictionary<string, DownloadResponse>();
         private static readonly IDevice _deviceServices = ObjectContainer.Container.GetExportedValue<IDevice>();
-        private static readonly IImageRepository _imageRepository = ObjectContainer.Container.GetExportedValue<IImageRepository>();
+        private static readonly IImageConfigurationRepository _imageConfigurationRepository = ObjectContainer.Container.GetExportedValue<IImageConfigurationRepository>();
 
         public async Task<Tuple<MimeTypes, string>> ProcessRequest(DownloadRequest request)
         {
@@ -25,7 +25,7 @@ namespace Resizing.Services
 
         public void SetImageSize(string url, int width, int height, ImageSizes deviceType)
         {
-            ImageDefaults imageDefault = _imageRepository.Get(url);
+            ImageDefaults imageDefault = _imageConfigurationRepository.Get(url);
             if (imageDefault != null)
             {
                 if (imageDefault.ImageSizes.ContainsKey(deviceType))
@@ -38,22 +38,22 @@ namespace Resizing.Services
                 imageDefault = new ImageDefaults {Url = url};
                 imageDefault.ImageSizes.Add(deviceType, new Tuple<int, int>(width, height));
             }
-            _imageRepository.Save(imageDefault);
+            _imageConfigurationRepository.Save(imageDefault);
 
             if (_savedImages.ContainsKey(new Uri(url)))
                 _savedImages.Remove(new Uri(url));
         }
 
-        public void SetPath(string path)
+        public void SetDirectory(IImageRepository imageRepository)
         {
-            DownloadProcess.SetPath(path);
+            DownloadProcess.SetDirectory(imageRepository);
         }
 
         public void RemoveItemFromCache(Uri url)
         {
             if (_savedImages.ContainsKey(url))
             {
-                _imageRepository.Remove(url.ToString());
+                _imageConfigurationRepository.Remove(url.ToString());
                 _savedImages.Remove(url);
 
                 string keyToRemove = null;

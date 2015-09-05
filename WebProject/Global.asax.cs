@@ -9,10 +9,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using AzureBlobHelper;
 using Contracts;
+using Core.Azure;
 using Core.MEF;
-using Utility.Helpers;
 
 namespace WebProject
 {
@@ -25,44 +24,6 @@ namespace WebProject
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            try
-            {
-                if (Directory.Exists("/cachedImages/".GetPhysicalPathForFolder(true)))
-                {
-                    foreach (string file in Directory.GetFiles("/cachedImages/".GetPhysicalPathForFolder(true)))
-                    {
-                        if (!file.Contains("placeholder.txt"))
-                            File.Delete(file);
-                    }
-                }
-                else
-                    Directory.CreateDirectory("".GetPhysicalPathForFolder(true) + "cachedImages");
-            }
-            catch (Exception)
-            {
-                //Path doesn't exists
-                Directory.CreateDirectory("".GetPhysicalPathForFolder(true) + "cachedImages");
-            }
-
-            try
-            {
-                if (Directory.Exists("/savedsettings/".GetPhysicalPathForFolder(true)))
-                {
-                    foreach (string file in Directory.GetFiles("/savedsettings/".GetPhysicalPathForFolder(true)))
-                    {
-                        if (!file.Contains("placeholder.txt"))
-                            File.Delete(file);
-                    }
-                }
-                else
-                    Directory.CreateDirectory("".GetPhysicalPathForFolder(true) + "savedsettings");
-            }
-            catch (Exception)
-            {
-                //Path doesn't exists
-                Directory.CreateDirectory("".GetPhysicalPathForFolder(true) + "savedsettings");
-            }
 
             string path = ConfigurationManager.AppSettings["blobStorage"];
             if (!string.IsNullOrEmpty(path))
@@ -86,19 +47,20 @@ namespace WebProject
                 }
             }
             else if (string.IsNullOrEmpty(path))
+            {
                 path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["libraryLocations"]));
+            }
             else
                 throw new ApplicationException("The library location needs to be specified.");
 
             AggregateCatalog catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new DirectoryCatalog(path, "Caching.dll"));
-            catalog.Catalogs.Add(new DirectoryCatalog(path, "DeviceServices.dll"));
-            catalog.Catalogs.Add(new DirectoryCatalog(path, "Repository.dll"));
-            catalog.Catalogs.Add(new DirectoryCatalog(path, "Resizing.Services.dll"));
+            catalog.Catalogs.Add(new DirectoryCatalog(path, "*.dll"));
             ObjectContainer.SetContainer(new CompositionContainer(catalog));
 
             IImageServices imageServices = ObjectContainer.Container.GetExportedValue<IImageServices>();
-            imageServices.SetPath("/cachedImages/".GetPhysicalPathForFolder(true));
+            IImageRepository cacheRepository = ObjectContainer.Container.ResolveCustomExportValue<IImageRepository>("BlobStorage");
+            cacheRepository.SetFolderName("cache");
+            imageServices.SetDirectory(cacheRepository);
         }
     }
 }

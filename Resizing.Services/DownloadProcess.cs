@@ -6,14 +6,15 @@ using Contracts;
 using Core.MEF;
 using Domain;
 using ImageResizer;
-using Utility.Helpers;
 
 namespace Resizing.Services
 {
     public static class DownloadProcess
     {
-        private static readonly IImageRepository _imageRepository = ObjectContainer.Container.GetExportedValue<IImageRepository>();
-        private static string _imageLocation;
+        private static readonly IImageConfigurationRepository _imageConfigurationRepository = ObjectContainer.Container.GetExportedValue<IImageConfigurationRepository>();
+        private static IImageRepository _imageRepository;
+        private static IImageRepository _fileSystemRepository = ObjectContainer.Container.ResolveCustomExportValue<IImageRepository>("FileSystem");
+        private const string TEMP_LOCATION = @"c:\temp\{0}";
 
         public static DownloadResponse Download(DownloadRequest request)
         {
@@ -22,22 +23,21 @@ namespace Resizing.Services
                 int sourceWidth = 0;
                 int sourceHeight = 0;
 
-                string fileLocation = Path.GetFullPath(_imageLocation);
                 string imageName = request.Url.Segments[request.Url.Segments.Length - 1];
                 imageName = imageName.ToLower();
-                string initial = string.Concat(fileLocation, imageName);
+                string initial = imageName;
                 initial = initial.ToLower();
 
                 DownloadResponse response = new DownloadResponse(initial);
-                Tuple<ImageFormat, string> format = Helper.GetImageType(request);
+                Tuple<ImageFormat, string> format = Utility.Helpers.Utility.GetImageType(request);
                 ImageFormat imageFormat = format.Item1;
                 string extension = format.Item2;
 
-                if (!File.Exists(initial))
+                if (!_imageRepository.Exists(initial))
                 {
                     HttpWebRequest httpWebRequest = (HttpWebRequest) WebRequest.Create(request.Url);
-                    using (HttpWebResponse httpWebReponse = (HttpWebResponse) httpWebRequest.GetResponse())
-                    using (Stream stream = httpWebReponse.GetResponseStream())
+                    using (HttpWebResponse httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse())
+                    using (Stream stream = httpWebResponse.GetResponseStream())
                     {
                         if (stream != null)
                         {
@@ -45,7 +45,8 @@ namespace Resizing.Services
                             {
                                 sourceWidth = image.Width; //store original width of source image.
                                 sourceHeight = image.Height; //store original height of source image.
-                                image.Save(initial, imageFormat);
+                                image.Save(string.Format(TEMP_LOCATION, initial), imageFormat);
+                                _imageRepository.SaveFile(initial);
                             }
                         }
                     }
@@ -67,32 +68,33 @@ namespace Resizing.Services
                     {
                         Instructions instructions = new Instructions(request.Options);
 
-                        string fileName = string.Concat(fileLocation, Guid.NewGuid(), extension);
-                        ImageJob job = ImageBuilder.Current.Build(new ImageJob(initial, fileName, instructions));
+                        string fileName = string.Concat(Guid.NewGuid(), extension);
+                        ImageJob job = ImageBuilder.Current.Build(new ImageJob(string.Format(TEMP_LOCATION, initial), string.Format(TEMP_LOCATION, fileName), instructions));
                         response.ImageLocations[ImageSizes.Default] = new Tuple<MimeTypes, string>(new MimeTypes(fileName), job.FinalPath);
+                        _imageRepository.SaveFile(initial);
                     }
                     else
                     {
                         if (sourceWidth != 0 && sourceHeight != 0)
                         {
-                            ImageDefaults preDefinedValues = _imageRepository.Get(request.Url.ToString());
+                            ImageDefaults preDefinedValues = _imageConfigurationRepository.Get(request.Url.ToString());
                             int initialPercentage = 60;
                             for (int i = 0; i < 2; i++)
                             {
                                 float nPercent = ((float) initialPercentage/100);
 
-                                string fileName = string.Concat(fileLocation, Guid.NewGuid(), extension);
+                                string fileName = string.Concat(Guid.NewGuid(), extension);
 
                                 Instructions instructions = new Instructions();
-                                Tuple<int, int> predifinedItems;
-                                if (preDefinedValues != null && preDefinedValues.ImageSizes.TryGetValue((ImageSizes) i, out predifinedItems))
+                                Tuple<int, int> predefinedItems;
+                                if (preDefinedValues != null && preDefinedValues.ImageSizes.TryGetValue((ImageSizes) i, out predefinedItems))
                                 {
-                                    if (predifinedItems.Item1 > 0)
-                                        instructions.Width = predifinedItems.Item1;
-                                    if (predifinedItems.Item2 > 0)
-                                        instructions.Height = predifinedItems.Item2;
+                                    if (predefinedItems.Item1 > 0)
+                                        instructions.Width = predefinedItems.Item1;
+                                    if (predefinedItems.Item2 > 0)
+                                        instructions.Height = predefinedItems.Item2;
 
-                                    if (predifinedItems.Item1 > 0 && predifinedItems.Item2 > 0)
+                                    if (predefinedItems.Item1 > 0 && predefinedItems.Item2 > 0)
                                         instructions.Mode = FitMode.Max;
                                 }
                                 else
@@ -101,7 +103,9 @@ namespace Resizing.Services
                                 //Let the image builder add the correct extension based on the output file type 
                                 if (extension == ".jpg" || extension == ".jpeg")
                                     instructions.JpegQuality = 90;
-                                ImageJob job = ImageBuilder.Current.Build(new ImageJob(initial, fileName, instructions));
+                                ImageJob job = ImageBuilder.Current.Build(new ImageJob(string.Format(TEMP_LOCATION, initial), string.Format(TEMP_LOCATION, fileName), instructions));
+                                _imageRepository.SaveFile(fileName);
+                                _fileSystemRepository.DeleteFile(string.Format(TEMP_LOCATION, fileName));
 
                                 if (response.ImageLocations.ContainsKey((ImageSizes) i))
                                     response.ImageLocations[(ImageSizes) i] = new Tuple<MimeTypes, string>(new MimeTypes(fileName), job.FinalPath);
@@ -116,6 +120,8 @@ namespace Resizing.Services
                 {
                     //TODO: Log errors
                 }
+
+                _fileSystemRepository.DeleteFile(string.Format(TEMP_LOCATION, initial));
                 //});
                 return response;
             }
@@ -126,12 +132,9 @@ namespace Resizing.Services
             return null;
         }
 
-        internal static void SetPath(string path)
+        internal static void SetDirectory(IImageRepository imageRepository)
         {
-            DirectoryInfo directory = new DirectoryInfo(path);
-            if (!directory.Exists)
-                directory.Create();
-            _imageLocation = path;
+            _imageRepository = imageRepository;
         }
     }
 }

@@ -37,13 +37,13 @@ namespace WebProject.Controllers
                 else
                 {
                     HttpWebRequest httpWebRequest = (HttpWebRequest) WebRequest.Create(uri);
-                    using (HttpWebResponse httpWebReponse = (HttpWebResponse) httpWebRequest.GetResponse())
-                    using (Stream stream = httpWebReponse.GetResponseStream())
+                    using (HttpWebResponse httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse())
+                    using (Stream stream = httpWebResponse.GetResponseStream())
                     {
                         if (stream != Stream.Null)
                         {
                             Response.BinaryWrite(StreamHelper.ReadToEnd(stream));
-                            Response.ContentType = Utility.Helpers.Helper.GetImageType(request).Item1.ToString();
+                            Response.ContentType = Utility.Helpers.Utility.GetImageType(request).Item1.ToString();
                         }
                     }
                 }

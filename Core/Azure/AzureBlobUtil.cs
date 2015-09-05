@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace AzureBlobHelper
+namespace Core.Azure
 {
     public class AzureBlobUtil
     {

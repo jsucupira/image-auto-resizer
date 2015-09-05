@@ -2,7 +2,7 @@
 
 namespace Contracts
 {
-    public interface IImageRepository
+    public interface IImageConfigurationRepository
     {
         bool Exists(string url);
         ImageDefaults Get(string url);

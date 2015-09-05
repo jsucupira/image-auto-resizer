@@ -71,6 +71,9 @@
     <Compile Include="Azure\AzureBlobUtil.cs" />
     <Compile Include="Azure\FileBlock.cs" />
     <Compile Include="Exceptions\ExceededLimitException.cs" />
+    <Compile Include="MEF\INameMetadata.cs" />
+    <Compile Include="MEF\MefExportAttribute.cs" />
+    <Compile Include="MEF\MefExtensionMethods.cs" />
     <Compile Include="MEF\ObjectContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

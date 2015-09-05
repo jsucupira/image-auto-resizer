@@ -8,7 +8,7 @@ namespace Contracts
     {
         Task<Tuple<MimeTypes, string>> ProcessRequest(DownloadRequest request);
         void SetImageSize(string url, int width, int height, ImageSizes deviceType);
-        void SetPath(string path);
+        void SetDirectory(IImageRepository imageRepository);
         void RemoveItemFromCache(Uri url);
     }
 }

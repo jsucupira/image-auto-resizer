@@ -1,4 +1,4 @@
-﻿namespace AzureBlobHelper
+﻿namespace Core.Azure
 {
     internal class FileBlock
     {
