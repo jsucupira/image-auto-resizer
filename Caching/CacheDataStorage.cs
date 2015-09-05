@@ -11,7 +11,7 @@ namespace Caching
     {
         private const string CACHE_KEY = "__Caching_{0}";
         private static readonly ObjectCache _cache = MemoryCache.Default;
-        private static readonly Dictionary<string, List<string>> _cacheKeys = new Dictionary<string, List<string>>();
+        private static readonly Dictionary<string, List<string>> _cacheSections = new Dictionary<string, List<string>>();
         private static readonly CacheItemPolicy _defaultPolicy = new CacheItemPolicy {Priority = CacheItemPriority.Default};
 
         public void Add(string key, object dataObject, CacheItemPolicy policy)
@@ -30,11 +30,11 @@ namespace Caching
             key = string.Format(CACHE_KEY, key);
             _cache.Set(key, dataObject, policy);
 
-            if (!_cacheKeys.ContainsKey(section))
-                _cacheKeys[section] = new List<string>();
+            if (!_cacheSections.ContainsKey(section))
+                _cacheSections[section] = new List<string>();
 
-            if (!_cacheKeys[section].Contains(key))
-                _cacheKeys[section].Add(key);
+            if (!_cacheSections[section].Contains(key))
+                _cacheSections[section].Add(key);
         }
 
         public bool Exists(string key)
@@ -63,18 +63,12 @@ namespace Caching
 
         public void RemoveSection(string section)
         {
-            if (!_cacheKeys.ContainsKey(section)) return;
+            if (!_cacheSections.ContainsKey(section)) return;
 
-            foreach (string key in _cacheKeys[section])
+            foreach (string key in _cacheSections[section])
                 Remove(key);
 
-            _cacheKeys.Remove(section);
-        }
-
-        public void RemoveAll()
-        {
-            foreach (string section in _cacheKeys.Keys)
-                RemoveSection(section);
+            _cacheSections.Remove(section);
         }
     }
 }

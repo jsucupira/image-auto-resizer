@@ -11,7 +11,7 @@ namespace WebProject
         {
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
-            config.SuppressDefaultHostAuthentication();
+            //config.SuppressDefaultHostAuthentication();
 
             JsonMediaTypeFormatter json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             //json.UseDataContractJsonSerializer = true;

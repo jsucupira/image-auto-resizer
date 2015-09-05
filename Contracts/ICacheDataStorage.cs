@@ -12,6 +12,5 @@ namespace Contracts
         T Get<T>(string key);
         void Remove(string key);
         void RemoveSection(string section);
-        void RemoveAll();
     }
 }

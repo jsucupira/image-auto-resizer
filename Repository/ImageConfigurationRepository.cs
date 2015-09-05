@@ -10,6 +10,7 @@ namespace Repository
     public class ImageConfigurationRepository : IImageConfigurationRepository
     {
         private readonly ICacheDataStorage _cacheStorage = ObjectContainer.Resolve<ICacheDataStorage>();
+        private const string CACHE_SECTION = "ImageConfiguration";
 
         public bool Exists(string url)
         {
@@ -23,7 +24,7 @@ namespace Repository
 
         public void Save(ImageDefaults imageDefault)
         {
-            _cacheStorage.Add(imageDefault.Url, imageDefault);
+            _cacheStorage.Add(imageDefault.Url, imageDefault, CACHE_SECTION);
         }
 
         public void Remove(string url)
@@ -33,7 +34,7 @@ namespace Repository
 
         public void Clear()
         {
-            _cacheStorage.RemoveAll();
+            _cacheStorage.RemoveSection(CACHE_SECTION);
         }
     }
 }

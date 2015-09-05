@@ -61,8 +61,16 @@ namespace WebProject
             IImageServices imageServices = ObjectContainer.Container.GetExportedValue<IImageServices>();
             imageServices.SetDirectory($"{"".GetPhysicalPathForFolder(true)}{@"cachedImages\"}");
 
-            if (!Directory.Exists("/savedsettings/".GetPhysicalPathForFolder(true)))
+            try
+            {
+                if (!Directory.Exists("/savedsettings/".GetPhysicalPathForFolder(true)))
+                    Directory.CreateDirectory("".GetPhysicalPathForFolder(true) + "savedsettings");
+            }
+            catch (InvalidOperationException)
+            {
+                //Exception happens when the folder /savesettings/ doesn't exists
                 Directory.CreateDirectory("".GetPhysicalPathForFolder(true) + "savedsettings");
+            }
         }
     }
 }

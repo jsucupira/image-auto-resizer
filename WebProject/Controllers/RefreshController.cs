@@ -6,10 +6,12 @@ namespace WebProject.Controllers
     public class RefreshController : BaseApiController
     {
         [HttpDelete]
-        [Route("api/images/clear/{url}")]
-        public void Index(string url)
+        [Route("api/images/clear")]
+        public void Index([FromUri]string url)
         {
-            ImageTracker.RemoveItemFromCache(new Uri(url));
+            Uri uri;
+            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+                ImageTracker.RemoveItemFromCache(uri);
         }
 
         [HttpDelete]
