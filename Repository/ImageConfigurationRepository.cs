@@ -9,7 +9,7 @@ namespace Repository
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class ImageConfigurationRepository : IImageConfigurationRepository
     {
-        private readonly ICacheDataStorage _cacheStorage = ObjectContainer.Container.GetExportedValue<ICacheDataStorage>();
+        private readonly ICacheDataStorage _cacheStorage = ObjectContainer.Resolve<ICacheDataStorage>();
 
         public bool Exists(string url)
         {
@@ -29,6 +29,11 @@ namespace Repository
         public void Remove(string url)
         {
             _cacheStorage.Remove(url);
+        }
+
+        public void Clear()
+        {
+            _cacheStorage.RemoveAll();
         }
     }
 }

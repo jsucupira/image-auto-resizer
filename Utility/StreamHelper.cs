@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Utility.Helpers
+namespace Utility
 {
     public static class StreamHelper
     {

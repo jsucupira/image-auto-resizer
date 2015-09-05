@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Domain;
-using Utility.Helpers;
+using Utility;
 
 namespace WebProject.Controllers
 {
     public class SettingsController : BaseApiController
     {
-        [HttpGet]
+        [HttpPut]
         [Route("api/settings/setItem/{url}/{width}/{height}/{deviceType}")]
-        public void SetItem(string url, int width, int height, int deviceType)
+        public void SetItem([FromUri]string url, [FromUri]int width, [FromUri]int height, [FromUri]int deviceType)
         {
             ImageTracker.SetImageSize(url.CleanUrl(), width, height, (ImageSizes) deviceType);
         }
@@ -27,11 +27,18 @@ namespace WebProject.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("api/settings/remove/{url}")]
-        public void RemoveFromCache(string url)
+        [HttpDelete]
+        [Route("api/settings/{url}")]
+        public void RemoveFromCache([FromUri]string url)
         {
             ImageTracker.RemoveItemFromCache(new Uri(url));
+        }
+
+        [HttpDelete]
+        [Route("api/settings/clear")]
+        public void ClearSettings()
+        {
+            ImageTracker.ClearSettings();
         }
     }
 }

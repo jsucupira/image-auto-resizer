@@ -12,6 +12,7 @@ using System.Web.Routing;
 using Contracts;
 using Core.Azure;
 using Core.MEF;
+using Utility;
 
 namespace WebProject
 {
@@ -28,9 +29,9 @@ namespace WebProject
             string path = ConfigurationManager.AppSettings["blobStorage"];
             if (!string.IsNullOrEmpty(path))
             {
-                AzureBlobUtil azureBlobUtil = new AzureBlobUtil(path);
+                AzureBlobUtil azureBlobUtility = new AzureBlobUtil(path);
                 path = Server.MapPath("~/loadedDlls");
-                List<string> files = azureBlobUtil.BlobList("images-resizer").ToList();
+                List<string> files = azureBlobUtility.BlobList("images-resizer").ToList();
                 if (files.Any())
                 {
                     DirectoryInfo directory = new DirectoryInfo(path);
@@ -43,7 +44,7 @@ namespace WebProject
                         directory.Create();
 
                     foreach (string file in files)
-                        azureBlobUtil.DownloadBlobAsFile("images-resizer", path, file);
+                        azureBlobUtility.DownloadBlobAsFile("images-resizer", path, file);
                 }
             }
             else if (string.IsNullOrEmpty(path))
@@ -58,9 +59,10 @@ namespace WebProject
             ObjectContainer.SetContainer(new CompositionContainer(catalog));
 
             IImageServices imageServices = ObjectContainer.Container.GetExportedValue<IImageServices>();
-            IImageRepository cacheRepository = ObjectContainer.Container.ResolveCustomExportValue<IImageRepository>("BlobStorage");
-            cacheRepository.SetFolderName("cache");
-            imageServices.SetDirectory(cacheRepository);
+            imageServices.SetDirectory($"{"".GetPhysicalPathForFolder(true)}{@"cachedImages\"}");
+
+            if (!Directory.Exists("/savedsettings/".GetPhysicalPathForFolder(true)))
+                Directory.CreateDirectory("".GetPhysicalPathForFolder(true) + "savedsettings");
         }
     }
 }

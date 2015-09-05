@@ -144,10 +144,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cachedImages\placeholder.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="savedsettings\placeholder.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -160,9 +158,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="loadedDlls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\Utility.cs" />
-    <Compile Include="Helpers\StreamHelper.cs" />
+    <Compile Include="Utility.cs" />
+    <Compile Include="StreamHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Domain;
-using Utility.Helpers;
+using Utility;
 
 namespace WebProject.Controllers
 {
@@ -43,7 +43,7 @@ namespace WebProject.Controllers
                         if (stream != Stream.Null)
                         {
                             Response.BinaryWrite(StreamHelper.ReadToEnd(stream));
-                            Response.ContentType = Utility.Helpers.Utility.GetImageType(request).Item1.ToString();
+                            Response.ContentType = Utility.Helper.GetImageType(request).Item1.ToString();
                         }
                     }
                 }

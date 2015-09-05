@@ -7,9 +7,9 @@ using System.Text;
 using System.Web;
 using Domain;
 
-namespace Utility.Helpers
+namespace Utility
 {
-    public static class Utility
+    public static class Helper
     {
         private static readonly List<string> _optionsList = new List<string>
         {
@@ -27,7 +27,7 @@ namespace Utility.Helpers
             if (!isVirtual)
                 path = path.Replace(GetBaseUrl(current.Request, false), "");
 
-            string physical = string.Format("{0}", HttpContext.Current.Server.MapPath("~/" + path));
+            string physical = HttpContext.Current.Server.MapPath("~/" + path);
 
             if (!Directory.Exists(physical))
                 throw new InvalidOperationException("Physical path is not within the application root");
@@ -41,7 +41,7 @@ namespace Utility.Helpers
             {
                 Uri url = request.Url;
                 string applicationPath = VirtualPathUtility.RemoveTrailingSlash(request.ApplicationPath);
-                string baseUrl = string.Format("{0}://{1}{2}", url.Scheme, url.Authority, applicationPath);
+                string baseUrl = $"{url.Scheme}://{url.Authority}{applicationPath}";
 
                 if (appendTrailingSlash)
                     return VirtualPathUtility.AppendTrailingSlash(baseUrl);
@@ -65,8 +65,7 @@ namespace Utility.Helpers
         public static string CleanUrl(this string url)
         {
             Uri uri = new Uri(url);
-            return string.Format("{0}://{1}{2}", uri.Scheme, uri.Host,
-                uri.AbsolutePath);
+            return $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}";
         }
 
         public static string FilterOptions(this string options)
@@ -84,7 +83,6 @@ namespace Utility.Helpers
             }
             return options;
         }
-
 
         public static Tuple<ImageFormat, string> GetImageType(DownloadRequest request)
         {

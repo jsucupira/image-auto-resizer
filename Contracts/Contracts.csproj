@@ -43,7 +43,6 @@
     <Compile Include="ICacheDataStorage.cs" />
     <Compile Include="IDevice.cs" />
     <Compile Include="IImageConfigurationRepository.cs" />
-    <Compile Include="IImageRepository.cs" />
     <Compile Include="IImageTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

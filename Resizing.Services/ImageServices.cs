@@ -15,8 +15,8 @@ namespace Resizing.Services
     {
         private static readonly Dictionary<Uri, DownloadResponse> _savedImages = new Dictionary<Uri, DownloadResponse>();
         private static readonly Dictionary<string, DownloadResponse> _customImages = new Dictionary<string, DownloadResponse>();
-        private static readonly IDevice _deviceServices = ObjectContainer.Container.GetExportedValue<IDevice>();
-        private static readonly IImageConfigurationRepository _imageConfigurationRepository = ObjectContainer.Container.GetExportedValue<IImageConfigurationRepository>();
+        private static readonly IDevice _deviceServices = ObjectContainer.Resolve<IDevice>();
+        private static readonly IImageConfigurationRepository _imageConfigurationRepository = ObjectContainer.Resolve<IImageConfigurationRepository>();
 
         public async Task<Tuple<MimeTypes, string>> ProcessRequest(DownloadRequest request)
         {
@@ -44,9 +44,9 @@ namespace Resizing.Services
                 _savedImages.Remove(new Uri(url));
         }
 
-        public void SetDirectory(IImageRepository imageRepository)
+        public void SetDirectory(string folderPath)
         {
-            DownloadProcess.SetDirectory(imageRepository);
+            DownloadProcess.SetPath(folderPath);
         }
 
         public void RemoveItemFromCache(Uri url)
@@ -68,6 +68,18 @@ namespace Resizing.Services
                 if (!string.IsNullOrEmpty(keyToRemove))
                     _customImages.Remove(keyToRemove);
             }
+        }
+
+        public void ClearCache()
+        {
+            _savedImages.Clear();
+            _customImages.Clear();
+            DownloadProcess.ClearFolder();
+        }
+
+        public void ClearSettings()
+        {
+            _imageConfigurationRepository.Clear();
         }
 
         private static Tuple<MimeTypes, string> DecideWhichImageToUse(DownloadRequest request, DownloadResponse response)
