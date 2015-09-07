@@ -7,6 +7,7 @@ dllsOutput/
 cachedImages/
 loadedDlls/
 savedsettings/
+WebProject/App_Data/
 
 #don't ignore
 !packages/SimpleLogging*

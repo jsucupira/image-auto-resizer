@@ -5,3 +5,70 @@ OnActionExecuted controller:Home action:GetImage
 2015-09-05 18:49:18.983 -> REQUEST_URL:http://localhost:5615/,REFERRER_URL:, IP_ADDRESS:::1, controller:Home -> action:GetImage
 2015-09-05 18:49:19.012 -> REQUEST_URL:http://localhost:5615/Error,REFERRER_URL:, IP_ADDRESS:::1, controller:Home -> action:Error
 2015-09-05 18:49:48.977 -> REQUEST_URL:http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options=width=400,REFERRER_URL:http://localhost:5615/Error, IP_ADDRESS:::1, controller:Home -> action:GetImage
+2015-09-07 14:40:00.800 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 14:40:00.826 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 14:40:05.375 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options=width=400, http://localhost:5615/Error,  ::1, controller:Home -> action:GetImage
+2015-09-07 14:40:46.674 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 14:44:42.268 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 14:44:42.300 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 14:44:44.414 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options=width=400, http://localhost:5615/Error,  ::1, controller:Home -> action:GetImage
+2015-09-07 14:45:48.343 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 14:45:48.370 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 14:46:12.681 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options=width=400, http://localhost:5615/Error,  ::1, controller:Home -> action:GetImage
+2015-09-07 14:47:15.847 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:01:28.434 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:01:28.460 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 15:01:44.955 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:03:42.248 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:03:42.275 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 15:04:32.927 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:05:12.776 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:06:50.610 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:06:50.638 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 15:09:32.392 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:09:32.422 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 15:19:28.603 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:19:28.631 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 15:19:38.050 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:19:44.302 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=0, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:19:54.490 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:20:49.170 -> http://localhost:5615/api/images/clear/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.pngwidth=400, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/images/clear/.
+2015-09-07 15:21:19.392 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:21:43.347 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:21:43.379 -> http://localhost:5615/Error, N/A,  ::1, controller:Home -> action:Error
+2015-09-07 15:21:49.882 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=0, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:22:20.944 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&options=width=400, http://localhost:5615/Error,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:22:31.352 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:23:09.038 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=2, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:23:13.560 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:23:20.521 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=0, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:23:23.696 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=0, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:23:25.972 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:23:27.556 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:23:45.840 -> http://localhost:5615/api/images/clear, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/images/clear.
+2015-09-07 15:24:15.106 -> http://localhost:5615/api/images/clear, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/images/clear.
+2015-09-07 15:24:21.862 -> http://localhost:5615/api/settings/clear, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/settings/clear.
+2015-09-07 15:24:33.489 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=2, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:25:43.962 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:26:18.064 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=100&height=500&deviceType=2, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:26:40.339 -> http://localhost:5615/api/images/clear/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/images/clear/.
+2015-09-07 15:30:10.412 -> http://localhost:5615/, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:30:23.460 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=100&height=500&deviceType=2, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:30:32.218 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:31:31.547 -> http://localhost:5615/api/images/clear/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/images/clear/.
+2015-09-07 15:31:48.269 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:31:59.053 -> http://localhost:5615/api/settings/clear, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/settings/clear.
+2015-09-07 15:32:05.288 -> http://localhost:5615/api/images/clear, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/images/clear.
+2015-09-07 15:32:12.660 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=100&height=500&deviceType=2, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:33:04.121 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:35:03.375 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=100&height=500&deviceType=2, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:35:06.026 -> http://localhost:5615/api/settings/clear, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/settings/clear.
+2015-09-07 15:35:12.310 -> http://localhost:5615/api/images/clear, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/images/clear.
+2015-09-07 15:35:22.066 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=0, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:35:31.341 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:35:36.248 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:35:48.150 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage
+2015-09-07 15:36:17.775 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=0, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:36:20.052 -> http://localhost:5615/api/settings/clear, N/A,  ::1, InvokeActionAsync -> DELETE -> /api/settings/clear.
+2015-09-07 15:36:23.849 -> http://localhost:5615/api/settings?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png&width=400&height=200&deviceType=0, N/A,  ::1, InvokeActionAsync -> PUT -> /api/settings.
+2015-09-07 15:37:04.876 -> http://localhost:5615/?url=http://upload.wikimedia.org/wikipedia/sr/0/0c/Firefox-logo.png, N/A,  ::1, controller:Home -> action:GetImage

@@ -57,7 +57,7 @@
     <Content Include="WURFL AGPL License.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\wurfl-latest.zip" />
+    <EmbeddedResource Include="App_Data\wurfl-latest.zip" />
     <None Include="App_Readme\WURFL Quick Guide_v1_5.pdf" />
     <None Include="App_Readme\WURFL-v.1.6.1.0.chm" />
     <None Include="Introspector\Introspector.ashx" />

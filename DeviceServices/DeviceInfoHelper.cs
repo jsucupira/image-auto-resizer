@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Web;
 using Domain;
 using WURFL;
@@ -27,6 +29,17 @@ namespace DeviceServices
                     directory.Create();
 
                 wurflDataFile += "wurfl-latest.zip";
+
+                Assembly asm = Assembly.GetExecutingAssembly();
+
+                //will loop tru all assembly files
+                string wurflLatest = asm.GetManifestResourceNames().FirstOrDefault(n => n.Contains("wurfl-latest.zip"));
+                if (wurflLatest != null)
+                {
+                    Stream stream = asm.GetManifestResourceStream(wurflLatest);
+                    using (FileStream fileStream = new FileStream(wurflDataFile, FileMode.Create))
+                        stream?.CopyTo(fileStream);
+                }
 
                 //string wurflPatchFile = HttpContext.Current.Server.MapPath("~/App_Data/web_browsers_patch.xml");
                 IWURFLConfigurer configurer = new InMemoryConfigurer().MainFile(wurflDataFile); //.PatchFile(wurflPatchFile);

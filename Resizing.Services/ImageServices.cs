@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Contracts;
 using Core.MEF;
 using Domain;
+using SimpleLogging;
 
 namespace Resizing.Services
 {
@@ -20,6 +21,7 @@ namespace Resizing.Services
         private static readonly ICacheDataStorage _customImages = ObjectContainer.Resolve<ICacheDataStorage>();
         private static readonly IDevice _deviceServices = ObjectContainer.Resolve<IDevice>();
         private static readonly IImageConfigurationRepository _imageConfigurationRepository = ObjectContainer.Resolve<IImageConfigurationRepository>();
+        private static readonly ISimpleLogger _logger = SimpleLoggerFactory.Create();
 
         public async Task<Tuple<MimeTypes, string>> ProcessRequest(DownloadRequest request)
         {
@@ -42,7 +44,7 @@ namespace Resizing.Services
                 imageDefault.ImageSizes.Add(deviceType, new Tuple<int, int>(width, height));
             }
             _imageConfigurationRepository.Save(imageDefault);
-            _savedImages.Remove(url.ToString());
+            _savedImages.Remove(url.ToString(), SAVED_IMAGE_SECTION);
         }
 
         public void SetDirectory(string folderPath)
@@ -53,16 +55,16 @@ namespace Resizing.Services
         public void RemoveItemFromCache(Uri url)
         {
             List<string> fileNames = new List<string>();
-            if (_savedImages.Exists(url.ToString()))
+            if (_savedImages.Exists(url.ToString(), SAVED_IMAGE_SECTION))
             {
-                fileNames.AddRange(DeleteFileForImageLocation(_savedImages.Get<DownloadResponse>(url.ToString()).ImageLocations));
-                _savedImages.Remove(url.ToString());
+                fileNames.AddRange(DeleteFileForImageLocation(_savedImages.Get<DownloadResponse>(url.ToString(), SAVED_IMAGE_SECTION).ImageLocations));
+                _savedImages.Remove(url.ToString(), SAVED_IMAGE_SECTION);
             }
 
-            if (_customImages.Exists(url.ToString()))
+            if (_customImages.Exists(url.ToString(), CUSTOM_IMAGES_SECTION))
             {
-                fileNames.AddRange(DeleteFileForImageLocation(_customImages.Get<DownloadResponse>(url.ToString()).ImageLocations));
-                _customImages.Remove(url.ToString());
+                fileNames.AddRange(DeleteFileForImageLocation(_customImages.Get<DownloadResponse>(url.ToString(), CUSTOM_IMAGES_SECTION).ImageLocations));
+                _customImages.Remove(url.ToString(), CUSTOM_IMAGES_SECTION);
             }
 
             if (fileNames.Any())
@@ -74,8 +76,9 @@ namespace Resizing.Services
                         {
                             File.Delete(file);
                         }
-                        catch
+                        catch (Exception ex)
                         {
+                            _logger.LogError(ex, "Resizing.Services.ImageServices.RemoveItemFromCache");
                         }
                     }));
             }
@@ -93,8 +96,8 @@ namespace Resizing.Services
 
         public void ClearCache()
         {
-            _savedImages.RemoveSection(SAVED_IMAGE_SECTION);
-            _customImages.RemoveSection(CUSTOM_IMAGES_SECTION);
+            _savedImages.RemoveAll(SAVED_IMAGE_SECTION);
+            _customImages.RemoveAll(CUSTOM_IMAGES_SECTION);
             DownloadProcess.ClearFolder();
         }
 
@@ -113,13 +116,13 @@ namespace Resizing.Services
         {
             if (string.IsNullOrEmpty(request.Options))
             {
-                if (_savedImages.Exists(request.Url.ToString()))
-                    return DecideWhichImageToUse(request, _savedImages.Get<DownloadResponse>(request.Url.ToString()));
+                if (_savedImages.Exists(request.Url.ToString(), SAVED_IMAGE_SECTION))
+                    return DecideWhichImageToUse(request, _savedImages.Get<DownloadResponse>(request.Url.ToString(), SAVED_IMAGE_SECTION));
             }
             else
             {
-                if (_customImages.Exists(request.Url + request.Options))
-                    return _customImages.Get<DownloadResponse>(request.Url + request.Options).ImageLocations[ImageSizes.Default];
+                if (_customImages.Exists(request.Url + request.Options, CUSTOM_IMAGES_SECTION))
+                    return _customImages.Get<DownloadResponse>(request.Url + request.Options, CUSTOM_IMAGES_SECTION).ImageLocations[ImageSizes.Default];
             }
 
             DownloadResponse response = DownloadProcess.Download(request);
@@ -127,12 +130,12 @@ namespace Resizing.Services
             {
                 if (!string.IsNullOrEmpty(request.Options))
                 {
-                    if (!_customImages.Exists(request.Url + request.Options))
+                    if (!_customImages.Exists(request.Url + request.Options, CUSTOM_IMAGES_SECTION))
                         _customImages.Add(request.Url + request.Options, response, CUSTOM_IMAGES_SECTION);
 
                     return response.ImageLocations[ImageSizes.Default];
                 }
-                if (!_savedImages.Exists(request.Url.ToString()))
+                if (!_savedImages.Exists(request.Url.ToString(), SAVED_IMAGE_SECTION))
                     _savedImages.Add(request.Url.ToString(), response, SAVED_IMAGE_SECTION);
 
                 return DecideWhichImageToUse(request, response);

@@ -14,12 +14,12 @@ namespace Repository
 
         public bool Exists(string url)
         {
-            return _cacheStorage.Exists(url);
+            return _cacheStorage.Exists(url, CACHE_SECTION);
         }
 
         public ImageDefaults Get(string url)
         {
-            return _cacheStorage.Get<ImageDefaults>(url);
+            return _cacheStorage.Get<ImageDefaults>(url, CACHE_SECTION);
         }
 
         public void Save(ImageDefaults imageDefault)
@@ -29,12 +29,12 @@ namespace Repository
 
         public void Remove(string url)
         {
-            _cacheStorage.Remove(url);
+            _cacheStorage.Remove(url, CACHE_SECTION);
         }
 
         public void Clear()
         {
-            _cacheStorage.RemoveSection(CACHE_SECTION);
+            _cacheStorage.RemoveAll(CACHE_SECTION);
         }
     }
 }

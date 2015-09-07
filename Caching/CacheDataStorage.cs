@@ -6,69 +6,50 @@ using Contracts;
 namespace Caching
 {
     [Export(typeof (ICacheDataStorage))]
-    [PartCreationPolicy(CreationPolicy.Shared)]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CacheDataStorage : ICacheDataStorage
     {
-        private const string CACHE_KEY = "__Caching_{0}";
         private static readonly ObjectCache _cache = MemoryCache.Default;
-        private static readonly Dictionary<string, List<string>> _cacheSections = new Dictionary<string, List<string>>();
+        private const string DEFAULT_CACHE_KEY = "__CACHE_{0}_{1}";
         private static readonly CacheItemPolicy _defaultPolicy = new CacheItemPolicy {Priority = CacheItemPriority.Default};
+        private static readonly HashSet<string> _keys = new HashSet<string>();
 
-        public void Add(string key, object dataObject, CacheItemPolicy policy)
+        public void Add(string key, object dataObject, string section, CacheItemPolicy policy)
         {
-            key = string.Format(CACHE_KEY, key);
+            key = string.Format(DEFAULT_CACHE_KEY, section, key);
             _cache.Set(key, dataObject, policy);
+            _keys.Add(key);
         }
 
-        public void Add(string key, object dataObject, string section)
+        public bool Exists(string key, string section)
         {
-            Add(key, dataObject, _defaultPolicy, section);
-        }
-
-        public void Add(string key, object dataObject, CacheItemPolicy policy, string section)
-        {
-            key = string.Format(CACHE_KEY, key);
-            _cache.Set(key, dataObject, policy);
-
-            if (!_cacheSections.ContainsKey(section))
-                _cacheSections[section] = new List<string>();
-
-            if (!_cacheSections[section].Contains(key))
-                _cacheSections[section].Add(key);
-        }
-
-        public bool Exists(string key)
-        {
-            key = string.Format(CACHE_KEY, key);
+            key = string.Format(DEFAULT_CACHE_KEY, section, key);
             return _cache[key] != null;
         }
 
-        public T Get<T>(string key)
+        public T Get<T>(string key, string section)
         {
-            key = string.Format(CACHE_KEY, key);
+            key = string.Format(DEFAULT_CACHE_KEY, section, key);
             object cacheValue = _cache[key];
             return cacheValue == null ? default(T) : (T) cacheValue;
         }
 
-        public void Add(string key, object dataObject)
+        public void Add(string key, object dataObject, string section)
         {
-            Add(key, dataObject, _defaultPolicy);
+            Add(key, dataObject, section, _defaultPolicy);
         }
 
-        public void Remove(string key)
+        public void Remove(string key, string section)
         {
-            key = string.Format(CACHE_KEY, key);
+            key = string.Format(DEFAULT_CACHE_KEY, section, key);
             _cache.Remove(key);
+            _keys.Remove(key);
         }
 
-        public void RemoveSection(string section)
+        public void RemoveAll(string section)
         {
-            if (!_cacheSections.ContainsKey(section)) return;
-
-            foreach (string key in _cacheSections[section])
-                Remove(key);
-
-            _cacheSections.Remove(section);
+            foreach (string key in _keys)
+                Remove(key, section);
         }
     }
 }
