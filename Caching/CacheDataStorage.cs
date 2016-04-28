@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Runtime.Caching;
 using Contracts;
 
@@ -48,8 +49,12 @@ namespace Caching
 
         public void RemoveAll(string section)
         {
-            foreach (string key in _keys)
-                Remove(key, section);
+            List<string> items = _keys.Where(t => t.StartsWith($"__CACHE_{section}")).ToList();
+            for (int i = 0; i < items.Count; i++)
+            {
+                _cache.Remove(items[i]);
+                _keys.Remove(items[i]);
+            }
         }
     }
 }
